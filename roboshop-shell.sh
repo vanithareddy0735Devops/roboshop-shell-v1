@@ -17,7 +17,7 @@ instance_id=$(aws ec2 run-instances \
   --output text
 )
 
-echo "$instance ID: $instance_id"
+echo "$instance instance ID: $instance_id"
 
 if [ $instance != "frontend" ]; then
    IP=$(aws ec2 describe-instances \
@@ -54,4 +54,5 @@ aws route53 change-resource-record-sets \
     ]
   }'
 
+echo "updated route 53 record for $instance"
 done
