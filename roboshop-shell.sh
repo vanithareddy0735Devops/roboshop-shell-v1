@@ -24,13 +24,13 @@ if [ $instance != "frontend" ]; then
     --instance-ids $instance_id \
     --query "Reservations[0].Instances[0].PrivateIpAddress" \
     --output text)
-    r53_record= "$instance.$domain_name"
+    r53_record="${instance}.${domain_name}"
 else
     IP=$(aws ec2 describe-instances \
   --instance-ids $instance_id \
   --query "Reservations[0].Instances[0].PublicIpAddress" \
   --output text)
-  r53_record= "$domain_name"
+  r53_record="${domain_name}"
 fi
 #create or update rount 53 record
 aws route53 change-resource-record-sets \
