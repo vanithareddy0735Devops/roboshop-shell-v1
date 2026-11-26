@@ -7,5 +7,15 @@ hosted_zone_id=Z06591282AN0UYQZN7Q82
 
 for instance in $@
 do
-echo "creating the instance: $instance"
+instance_id=$(aws ec2 run-instances \
+  --image-id $ami_id \
+  --count 1 \
+  --instance-type $instance_type \
+  --security-groups "roboshop-common" "roboshop-$instance" \
+  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]" \
+  --query "Instances[0].InstanceId" \
+  --output text
+)
+
+echo "$instance ID: $instance_id"
 done
