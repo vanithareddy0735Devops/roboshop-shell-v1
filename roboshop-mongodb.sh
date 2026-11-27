@@ -20,16 +20,19 @@ fi
 }
 
 
-
-
-
-
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 validate $? "adding mongo repo"
 
-dnf install mongodb-org -y
+dnf install mongodb-org -y &&> $log_file
 validate $? "mongo db"
 
-systemctl enable mongod
-systemctl start mongod
+systemctl enable mongod &&> $log_file
+systemctl start mongod &&> $log_file
 validate $? "enable and start mongodb"
+
+
+sed -i 's/127.0.0.1/0.0.0.0' /etc/mongod.conf &>> $log_file
+validate $? "succesfully updated the config file"
+
+systemctl restart mongod &>> $log_file
+validate $? "restarted the mongo db"
