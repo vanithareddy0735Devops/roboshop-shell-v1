@@ -12,10 +12,10 @@ mkdir -p ${log_dir}
 
 validate(){
     if [ $1 -ne 0 ]; then
-    echo "$2 installation is failed" | tee -a $log_file
+    echo "$2 is failed" | tee -a $log_file
     exit 1
 else 
-    echo "$2 installation is succesfull" | tee -a $log_file
+    echo "$2 is succesfull" | tee -a $log_file
 fi
 }
 
@@ -24,14 +24,14 @@ cp mongo.repo /etc/yum.repos.d/mongo.repo
 validate $? "adding mongo repo"
 
 dnf install mongodb-org -y &&> $log_file
-validate $? "mongo db"
+validate $? "mongo db installation"
 
 systemctl enable mongod &&> $log_file
 systemctl start mongod &&> $log_file
 validate $? "enable and start mongodb"
 
 
-sed -i 's/127.0.0.1/0.0.0.0' /etc/mongod.conf | tee -a $log_file
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf | tee -a $log_file
 validate $? "succesfully updated the config file"
 
 systemctl restart mongod | tee -a $log_file
