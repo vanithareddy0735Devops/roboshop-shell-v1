@@ -31,8 +31,8 @@ systemctl start mongod &&> $log_file
 validate $? "enable and start mongodb"
 
 
-sed -i 's/127.0.0.1/0.0.0.0' /etc/mongod.conf &>> $log_file
+sed -i 's/127.0.0.1/0.0.0.0' /etc/mongod.conf | tee -a $log_file
 validate $? "succesfully updated the config file"
 
-systemctl restart mongod &>> $log_file
+systemctl restart mongod | tee -a $log_file
 validate $? "restarted the mongo db"
