@@ -15,7 +15,7 @@ validate(){
     echo "$timestamp ERROR=======$2 is failed" | tee -a $log_file
     exit 1
 else 
-    echo "$timestamp INFO========$2 is succesfull" | tee -a $log_file
+    echo "$(timestamp) INFO========$2 is succesfull" | tee -a $log_file
 fi
 }
 
